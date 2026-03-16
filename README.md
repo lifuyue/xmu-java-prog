@@ -1,7 +1,7 @@
 # xmu-java-prog
 
-这个仓库用于存放 Java 程序设计实验代码，目前包含 `LAB1` 和 `LAB2` 两个实验目录。  
-如果你这次主要要看 `LAB2`，建议直接阅读 [LAB2/README.md](/Users/lifuyue/Projects/xmu-java-prog/LAB2/README.md)，里面已经补充了工程结构、每个类的作用、判奖逻辑和运行步骤。
+这个仓库用于存放 Java 程序设计实验代码，目前包含 `LAB1`、`LAB2` 和 `LAB3` 三个实验目录。  
+如果你这次主要要看 `LAB2`，建议直接阅读 [LAB2/README.md](/Users/lifuyue/Projects/xmu-java-prog/LAB2/README.md)；如果主要看本次实验，请直接阅读 [LAB3/README.md](/Users/lifuyue/Projects/xmu-java-prog/LAB3/README.md)。
 
 ## 仓库结构
 
@@ -12,7 +12,7 @@ xmu-java-prog/
 │   ├── README.md
 │   └── src/
 │       └── Main.java
-└── LAB2/                  # 实验二：博饼程序
+├── LAB2/                  # 实验二：博饼程序
     ├── README.md
     └── src/
         ├── Main.java
@@ -25,6 +25,17 @@ xmu-java-prog/
         ├── PrizeType.java
         ├── ChampionType.java
         └── TestCases.java
+└── LAB3/                  # 实验三：素数、选课系统、CAI
+    ├── README.md
+    └── src/
+        ├── PrimeExperiment.java
+        ├── PrimeRunStats.java
+        ├── PrimeUtils.java
+        ├── Student.java
+        ├── Course.java
+        ├── Score.java
+        ├── CourseSelectionApp.java
+        └── MultiplicationCai.java
 ```
 
 ## 每个实验怎么运行
@@ -52,6 +63,29 @@ java -cp bin Main
 ```bash
 java -cp bin TestCases
 ```
+
+### 运行 LAB3
+
+在目录 [LAB3](/Users/lifuyue/Projects/xmu-java-prog/LAB3) 下执行素数实验：
+
+```bash
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+mvn -f LAB3/pom.xml -Dexec.mainClass=PrimeExperiment clean compile exec:java
+```
+
+运行 CAI 程序：
+
+```bash
+mvn -f LAB3/pom.xml -Dexec.mainClass=MultiplicationCai compile exec:java
+```
+
+运行 JavaFX 选课系统：
+
+```bash
+mvn -f LAB3/pom.xml javafx:run
+```
+
+`LAB3` 已改为 Maven 工程，JavaFX 依赖由 Maven 自动下载，具体说明见 [LAB3/README.md](/Users/lifuyue/Projects/xmu-java-prog/LAB3/README.md)。
 
 ## 推荐阅读顺序
 
