@@ -1,2 +1,15 @@
-LAB1/bin/
+# Build outputs
+**/bin/
+**/target/
 *.class
+
+# IDE local files
+**/.settings/
+.idea/
+*.iml
+
+# OS-generated files
+.DS_Store
+
+# Logs
+*.log
