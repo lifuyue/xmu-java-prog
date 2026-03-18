@@ -8,6 +8,16 @@ public class PrimeExperiment {
     private static final int MAX_NUMBER = 10000;
     private static final int NUMBERS_PER_LINE = 10;
 
+    /**
+     * 程序入口。
+     * <p>
+     * 本方法会分别运行两轮实验：
+     * - 第一轮使用“最多测试到 n/2”的方法；
+     * - 第二轮使用“最多测试到 sqrt(n)”的方法。
+     * 最后把素数列表和两种算法的统计结果一起输出。
+     *
+     * @param args 命令行参数，本实验中不会使用
+     */
     public static void main(String[] args) {
         PrimeRunStats halfStats = runExperiment(false);
         PrimeRunStats sqrtStats = runExperiment(true);
@@ -23,6 +33,18 @@ public class PrimeExperiment {
                 + (halfStats.getPrimeCount() == sqrtStats.getPrimeCount() ? "是" : "否"));
     }
 
+    /**
+     * 执行一轮完整的素数实验。
+     * <p>
+     * 实验流程：
+     * - 依次测试 2 到 9999；
+     * - 根据参数决定使用哪种素数判断方法；
+     * - 记录测试个数、素数个数、总试除次数和素数列表；
+     * - 最终封装成 {@code PrimeRunStats} 返回。
+     *
+     * @param useSqrtMethod 为 true 表示使用平方根策略，为 false 表示使用 n/2 策略
+     * @return 当前策略对应的实验统计结果
+     */
     private static PrimeRunStats runExperiment(boolean useSqrtMethod) {
         List<Integer> primes = new ArrayList<>();
         int testedCount = 0;
@@ -47,6 +69,13 @@ public class PrimeExperiment {
         return new PrimeRunStats(testedCount, primes.size(), totalChecks, primes);
     }
 
+    /**
+     * 按固定排版输出全部素数。
+     * <p>
+     * 这里每行打印 10 个数字，目的是让控制台结果更整齐、更方便阅读。
+     *
+     * @param primes 要输出的素数列表
+     */
     private static void printPrimes(List<Integer> primes) {
         for (int i = 0; i < primes.size(); i++) {
             System.out.printf("%-6d", primes.get(i));
@@ -60,6 +89,16 @@ public class PrimeExperiment {
         }
     }
 
+    /**
+     * 输出某一种策略的统计信息。
+     * <p>
+     * 主要展示两项内容：
+     * - 找到的素数个数；
+     * - 总试除次数。
+     *
+     * @param title 当前策略的标题说明
+     * @param stats 当前策略对应的统计结果
+     */
     private static void printStats(String title, PrimeRunStats stats) {
         System.out.println(title);
         System.out.println("找到的素数个数：" + stats.getPrimeCount());
