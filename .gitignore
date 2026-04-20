@@ -13,3 +13,10 @@
 
 # Logs
 *.log
+
+# Local tooling and generated artifacts
+.agents/
+skills-lock.json
+tmp/
+output/
+*.zip
