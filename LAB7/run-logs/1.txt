@@ -1,0 +1,8 @@
+Integer 1000 与 1000 是否相等: true
+String "Java" 与 "Java" 是否相等: true
+两个不同 Object 对象是否相等: false
+同一个 Object 引用是否相等: true
+null 与 null 是否相等: true
+
+结论: isEqualTo 内部调用 equals。Integer、String 会按内容比较；
+未重写 equals 的 Object 默认按引用地址比较。

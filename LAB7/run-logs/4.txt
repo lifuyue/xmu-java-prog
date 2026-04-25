@@ -1,0 +1,5 @@
+请输入名字，每行一个；输入空行结束。
+删除重复后的名字:
+Li Ming
+Wang Fang
+Zhang San

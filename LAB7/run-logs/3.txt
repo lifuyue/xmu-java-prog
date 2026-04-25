@@ -1,0 +1,11 @@
+碳足迹估算结果（单位: kg CO2e/year）
+计算系数采用近似值，仅用于实验演示。
+Building{name='Software College Lab', electricity=12000.0 kWh, naturalGas=300.0 m3}
+类别: Building, 年碳足迹: 7620.60
+
+Car{plate='Min-A12345', distance=15000.0 km, fuel=7.2 L/100km}
+类别: Car, 年碳足迹: 2494.80
+
+Bicycle{brand='Giant', manufacturing=120.0 kg, serviceYears=8}
+类别: Bicycle, 年碳足迹: 15.00
+

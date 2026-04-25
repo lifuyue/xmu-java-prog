@@ -1,0 +1,5 @@
+学生成绩: Pair{first=Li Ming, second=95}
+第一项: Li Ming
+第二项: 95
+修改后的学生成绩: Pair{first=Li Ming, second=98}
+城市组合: Pair{first=Xiamen, second=Fuzhou}
