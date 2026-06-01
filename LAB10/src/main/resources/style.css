@@ -1,0 +1,53 @@
+.root {
+    -fx-font-family: "PingFang SC", "Microsoft YaHei", "Arial";
+    -fx-font-size: 14px;
+    -fx-background-color: #f3f6fb;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #e7edf5;
+}
+
+.page {
+    -fx-background-color: #f7f9fc;
+}
+
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #102033;
+}
+
+.panel,
+.photo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8e0ea;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 14;
+}
+
+.button {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 7 12 7 12;
+}
+
+.button.primary {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+}
+
+.text-field,
+.text-area {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #cbd5e1;
+    -fx-background-color: white;
+}
+
+.table-view {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #d8e0ea;
+}

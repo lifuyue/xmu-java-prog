@@ -1,0 +1,3 @@
+20240001	张三	13800000001	zhangsan@example.com	data/photos/20240001-demo.jpg
+20240002	王芳	13800000002	wangfang@example.com	data/photos/20240002-demo.jpg
+22920242203267	李富悦	13900002020	lifuyue-lab10@example.com	data/photos/22920242203267-20260528123937.jpg
