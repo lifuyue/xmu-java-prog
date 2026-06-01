@@ -1,0 +1,4 @@
+admin,admin123,ADMIN,管理员
+reader-chen,,READER,陈同学
+reader-lifuyue,,READER,李富悦
+reader-wang,,READER,王同学

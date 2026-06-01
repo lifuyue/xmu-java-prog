@@ -1,0 +1,71 @@
+.root {
+    -fx-font-family: "PingFang SC", "Microsoft YaHei", "Arial";
+    -fx-font-size: 13px;
+    -fx-background-color: #f5f6f8;
+}
+
+.app-header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8dde6;
+    -fx-border-width: 0 0 1 0;
+}
+
+.page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.panel {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8dde6;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.primary-button {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.danger-button {
+    -fx-background-color: #dc2626;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.success-button {
+    -fx-background-color: #16a34a;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.warning-button {
+    -fx-background-color: #ea580c;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.metric {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d8dde6;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.metric-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2563eb;
+}
+
+.status-text {
+    -fx-text-fill: #4b5563;
+}
