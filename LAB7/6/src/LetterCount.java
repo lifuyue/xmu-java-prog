@@ -2,6 +2,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+/**
+ * 第 6 题：只统计英文字母，TreeMap 让结果按字母自然顺序保存。
+ */
 public class LetterCount {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -11,6 +14,7 @@ public class LetterCount {
         Map<Character, Integer> counts = new TreeMap<>();
         for (char ch : text.toLowerCase().toCharArray()) {
             if (ch >= 'a' && ch <= 'z') {
+                // 非英文字母直接跳过，避免标点和空格影响统计结果。
                 counts.put(ch, counts.getOrDefault(ch, 0) + 1);
             }
         }
@@ -24,4 +28,3 @@ public class LetterCount {
         }
     }
 }
-

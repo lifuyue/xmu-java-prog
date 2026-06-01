@@ -1,3 +1,6 @@
+/**
+ * 纯提成模型：收入等于销售额乘以提成比例。
+ */
 public class CommissionCompensationModel implements CompensationModel {
     private final double grossSales;
     private final double commissionRate;

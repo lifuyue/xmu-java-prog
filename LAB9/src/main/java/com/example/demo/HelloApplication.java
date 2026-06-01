@@ -6,6 +6,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
+/**
+ * LAB9 JavaFX 入口：用两个 Tab 分别承载管理系统和 Painter 绘图程序。
+ */
 public class HelloApplication extends Application {
 
     public static void main(String[] args) {
@@ -14,6 +17,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // TabPane 让两个实验功能共享一个主窗口，方便运行和截图。
         TabPane tabs = new TabPane();
 
         Tab managementTab = new Tab("学生选课管理", new ManagementPane());

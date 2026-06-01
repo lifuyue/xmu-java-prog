@@ -1,3 +1,6 @@
+/**
+ * 第 1 题：演示构造方法也可以抛出异常，调用方必须用 try-catch 处理。
+ */
 public class Main {
     public static void main(String[] args) {
         try {
@@ -16,6 +19,7 @@ class SomeClass {
 
     public SomeClass(String name) throws ConstructionException {
         this.name = name;
+        // 构造过程中发现对象无法正常创建时，直接抛出自定义异常。
         throw new ConstructionException("SomeClass 构造失败，name=" + this.name);
     }
 

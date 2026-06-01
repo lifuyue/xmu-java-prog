@@ -10,6 +10,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 学生仓储类：集中处理 students.txt 顺序文件和照片复制。
+ */
 public class StudentRepository {
     private final Path dataFile;
     private final Path photosDir;
@@ -36,6 +39,7 @@ public class StudentRepository {
             }
             String[] parts = line.split("\\t", -1);
             if (parts.length >= 5) {
+                // 顺序文件每行一条记录，字段用制表符分隔，空字段也要保留。
                 students.add(new Student(parts[0], parts[1], parts[2], parts[3], parts[4]));
             }
         }
@@ -49,6 +53,7 @@ public class StudentRepository {
                 .toList();
         Path tmp = dataFile.resolveSibling(dataFile.getFileName() + ".tmp");
         Files.write(tmp, lines, StandardCharsets.UTF_8);
+        // 先写临时文件再替换原文件，避免保存中途失败时破坏原数据。
         Files.move(tmp, dataFile, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
     }
 
@@ -65,6 +70,7 @@ public class StudentRepository {
         String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
         Path target = photosDir.resolve(clean(studentId) + "-" + stamp + extension);
         Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+        // 保存相对 data 目录的路径，换机器或换仓库目录时更容易保持可用。
         return Path.of(dataFile.getParent().getFileName().toString(), "photos", target.getFileName().toString()).toString();
     }
 

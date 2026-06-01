@@ -21,6 +21,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
+/**
+ * 学生选课管理面板：用内存集合保存学生、课程和选课记录，并用表格展示。
+ */
 public class ManagementPane extends BorderPane {
     private final ObservableList<Student> students = FXCollections.observableArrayList();
     private final ObservableList<Course> courses = FXCollections.observableArrayList();
@@ -92,6 +95,7 @@ public class ManagementPane extends BorderPane {
 
         Button searchButton = new Button("查询");
         searchButton.setOnAction(event -> filteredStudents.setPredicate(student ->
+                // FilteredList 不复制原始数据，只改变当前表格可见的记录。
                 contains(student.getStudentId(), idField.getText())
                         && contains(student.getPhone(), phoneField.getText())
                         && contains(student.getClassName(), classField.getText())
@@ -169,6 +173,7 @@ public class ManagementPane extends BorderPane {
                     valueOrDefault(scheduleField, "周一 1-2 节")
             ));
             clearCourseForm(idField, nameField, creditField, teacherField, categoryField, scheduleField);
+            // 课程列表变化后，选课下拉框和表格需要刷新才能看到新课程。
             refreshEnrollmentTables();
         });
 
@@ -194,6 +199,7 @@ public class ManagementPane extends BorderPane {
                 showWarning("请先选择要删除的课程。");
                 return;
             }
+            // 删除课程时同步删除相关选课记录，避免记录引用不存在的课程对象。
             enrollments.removeIf(enrollment -> enrollment.getCourse() == selected);
             courses.remove(selected);
             clearCourseForm(idField, nameField, creditField, teacherField, categoryField, scheduleField);
@@ -274,6 +280,7 @@ public class ManagementPane extends BorderPane {
                 showWarning("该学生已经选择了这门课程。");
                 return;
             }
+            // 选课记录直接保存 Student 和 Course 对象，表格列从对象中读取显示字段。
             enrollments.add(new Enrollment(student, course, normalizedScore(scoreField), statusCombo.getValue()));
             summary.setText(enrollmentSummary());
         });
@@ -357,6 +364,7 @@ public class ManagementPane extends BorderPane {
     private <T> TableColumn<T, String> textColumn(String title, double width, ValueGetter<T> getter) {
         TableColumn<T, String> column = new TableColumn<>(title);
         column.setPrefWidth(width);
+        // ValueGetter 把不同对象的字段读取方式统一成表格列需要的字符串属性。
         column.setCellValueFactory(data -> new ReadOnlyStringWrapper(getter.get(data.getValue())));
         return column;
     }
@@ -471,6 +479,7 @@ public class ManagementPane extends BorderPane {
     }
 
     private void loadSampleData() {
+        // 实验数据直接放在内存中，便于重点展示集合、表格和事件处理。
         students.addAll(
                 new Student("2024001", "张三", "13800000001", "计算机1班", "中共党员", "zhangsan@example.com"),
                 new Student("2024002", "李四", "13800000002", "计算机1班", "共青团员", "lisi@example.com"),
@@ -502,6 +511,7 @@ public class ManagementPane extends BorderPane {
 }
 
 class Student {
+    // 学生在本实验中只用于展示和查询，所以字段保持不可变。
     private final String studentId;
     private final String name;
     private final String phone;
@@ -544,6 +554,7 @@ class Student {
 }
 
 class Course {
+    // 课程支持增删改，因此字段可变，修改后刷新表格即可显示新值。
     private String courseId;
     private String courseName;
     private String credit;
@@ -610,6 +621,7 @@ class Course {
 }
 
 class Enrollment {
+    // 选课记录关联学生和课程对象，体现对象之间的引用关系。
     private Student student;
     private Course course;
     private String score;

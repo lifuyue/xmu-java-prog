@@ -1,3 +1,6 @@
+/**
+ * 自行车碳足迹：把制造阶段排放平均分摊到预计使用年限中。
+ */
 public class Bicycle implements CarbonFootprint {
     private final String brand;
     private final double manufacturingEmissionKg;
@@ -35,4 +38,3 @@ public class Bicycle implements CarbonFootprint {
                 brand, manufacturingEmissionKg, expectedServiceYears);
     }
 }
-

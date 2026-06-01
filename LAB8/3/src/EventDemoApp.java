@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+/**
+ * 第 3 题：集中演示按钮、下拉框和鼠标事件的监听器写法。
+ */
 public class EventDemoApp {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -54,6 +57,7 @@ public class EventDemoApp {
         final int[] count = {0};
 
         countButton.addActionListener(event -> {
+            // ActionListener 接收按钮点击事件，事件对象中包含触发命令。
             count[0]++;
             countLabel.setText("点击次数：" + count[0]);
             display.setText("ActionEvent 来自按钮：" + event.getActionCommand());
@@ -77,6 +81,7 @@ public class EventDemoApp {
         display.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent event) {
+                // MouseAdapter 允许只重写关心的方法，不必实现所有鼠标事件方法。
                 display.setText("MouseEvent：鼠标进入显示区域。");
             }
 

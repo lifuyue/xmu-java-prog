@@ -2,6 +2,9 @@ import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * 第 7 题：先判断质数，再对合数做质因数分解并用 Set 去重。
+ */
 public class PrimeFactorsWithSet {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -53,6 +56,7 @@ public class PrimeFactorsWithSet {
         int remaining = number;
 
         for (int divisor = 2; divisor * divisor <= remaining; divisor++) {
+            // 同一个因子可能出现多次，例如 12 = 2 * 2 * 3，所以要用 while 反复除。
             while (remaining % divisor == 0) {
                 appendFactor(builder, divisor);
                 uniquePrimeFactors.add(divisor);
@@ -75,4 +79,3 @@ public class PrimeFactorsWithSet {
         builder.append(factor);
     }
 }
-

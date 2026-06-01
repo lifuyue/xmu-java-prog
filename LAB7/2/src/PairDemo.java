@@ -1,3 +1,6 @@
+/**
+ * 第 2 题入口：同一个 Pair 类可以保存不同类型组合。
+ */
 public class PairDemo {
     public static void main(String[] args) {
         Pair<String, Integer> studentScore = new Pair<>("Li Ming", 95);
@@ -13,4 +16,3 @@ public class PairDemo {
         System.out.println("城市组合: " + cityPair);
     }
 }
-

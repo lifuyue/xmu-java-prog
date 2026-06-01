@@ -22,6 +22,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
+/**
+ * 文件路径解析面板：根据输入路径判断文件类型并展示基础属性。
+ */
 public class FileAnalyzerPane extends BorderPane {
     private final TextField pathField = new TextField();
     private final TextArea resultArea = new TextArea();
@@ -95,6 +98,7 @@ public class FileAnalyzerPane extends BorderPane {
         }
 
         try {
+            // Files API 先区分目录和普通文件，再分别调用不同的统计逻辑。
             if (Files.isDirectory(path)) {
                 analyzeDirectory(path);
             } else if (Files.isRegularFile(path)) {
@@ -112,6 +116,7 @@ public class FileAnalyzerPane extends BorderPane {
         long directoryCount;
         try (Stream<Path> children = Files.list(path)) {
             var list = children.toList();
+            // 这里只统计直接子项，不递归进入子文件夹，符合实验中的路径解析要求。
             fileCount = list.stream().filter(Files::isRegularFile).count();
             directoryCount = list.stream().filter(Files::isDirectory).count();
         }

@@ -1,3 +1,6 @@
+/**
+ * 建筑碳足迹：把电力和天然气消耗分别乘以近似排放系数。
+ */
 public class Building implements CarbonFootprint {
     private final String name;
     private final double annualElectricityKwh;
@@ -35,4 +38,3 @@ public class Building implements CarbonFootprint {
                 name, annualElectricityKwh, annualNaturalGasM3);
     }
 }
-

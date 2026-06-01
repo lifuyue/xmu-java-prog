@@ -1,3 +1,6 @@
+/**
+ * 第 5 题入口：创建多个员工，演示同一个 Employee 可以替换不同薪酬模型。
+ */
 public class Main {
     public static void main(String[] args) {
         Employee salariedEmployee =
@@ -25,6 +28,7 @@ public class Main {
 
         System.out.println();
         System.out.println("动态修改 Alice 的薪酬模型后：");
+        // 替换模型后，不需要修改 Employee 类，earnings 会自动走新的计算规则。
         salariedEmployee.setCompensationModel(
                 new BasePlusCommissionCompensationModel(30000.0, 0.12, 2500.0));
         printEmployeeEarnings(salariedEmployee);

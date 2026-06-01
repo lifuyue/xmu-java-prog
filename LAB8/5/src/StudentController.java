@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
+/**
+ * MVC 中的 Controller：监听按钮和表格选择事件，再调用 Model 完成业务操作。
+ */
 public class StudentController {
     private final StudentModel model;
     private final StudentTableModel tableModel;
@@ -15,6 +18,7 @@ public class StudentController {
     }
 
     private void bindEvents() {
+        // 所有事件绑定集中在这里，便于初学者查看按钮和处理方法的对应关系。
         view.getAddButton().addActionListener(event -> handleAdd());
         view.getUpdateButton().addActionListener(event -> handleUpdate());
         view.getDeleteButton().addActionListener(event -> handleDelete());
@@ -112,6 +116,7 @@ public class StudentController {
     }
 
     private void refresh() {
+        // Model 暴露的是不可修改列表，这里复制一份给 TableModel 展示。
         tableModel.setStudents(new ArrayList<>(model.getStudents()));
     }
 

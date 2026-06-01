@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * 猜数字界面预览面板，供 ScreenshotExporter 生成实验报告截图使用。
+ */
 public class GuessGamePanel {
     public static JComponent createContentPanel() {
         JPanel root = new JPanel(new BorderLayout(0, 16));

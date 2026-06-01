@@ -17,6 +17,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+/**
+ * 第 1 题：Swing 登录框示例，展示文本框、密码框、复选框和按钮事件。
+ */
 public class LoginFrameApp {
     private static final Color BLUE = new Color(35, 94, 173);
 
@@ -32,6 +35,7 @@ public class LoginFrameApp {
     }
 
     public static JComponent createContentPanel() {
+        // 单独拆出面板创建方法，方便主程序显示，也方便截图工具复用同一套界面。
         JPanel root = new JPanel(new BorderLayout(0, 18));
         root.setPreferredSize(new Dimension(520, 340));
         root.setBorder(BorderFactory.createEmptyBorder(28, 38, 28, 38));
@@ -75,6 +79,7 @@ public class LoginFrameApp {
         loginButton.setForeground(Color.WHITE);
 
         clearButton.addActionListener(event -> {
+            // 按钮事件只更新界面状态，不做真实账号校验。
             userField.setText("");
             passwordField.setText("");
             status.setText("表单已清空。");

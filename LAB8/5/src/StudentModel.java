@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * MVC 中的 Model：保存学生列表和增删改查规则，不直接操作 Swing 控件。
+ */
 public class StudentModel {
     private final List<Student> students = new ArrayList<>();
 
@@ -12,6 +15,7 @@ public class StudentModel {
     }
 
     public List<Student> getStudents() {
+        // 返回不可修改视图，避免 View 或 Controller 绕过 Model 直接改列表。
         return Collections.unmodifiableList(students);
     }
 

@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 截图会话：按固定步骤切换界面状态，并调用 macOS screencapture 保存图片。
+ */
 public class ScreenshotSession {
     private final Stage stage;
     private final TabPane tabPane;
@@ -71,6 +74,7 @@ public class ScreenshotSession {
         stage.toFront();
         Step step = steps.get(index);
         step.action().run();
+        // 等 JavaFX 完成布局和绘制后再截图，避免捕获到上一状态。
         PauseTransition beforeCapture = new PauseTransition(Duration.millis(650));
         beforeCapture.setOnFinished(event -> {
             try {
@@ -95,6 +99,7 @@ public class ScreenshotSession {
             int width = (int) Math.round(stage.getWidth());
             int height = (int) Math.round(stage.getHeight());
             Path target = outputDir.resolve(filename);
+            // 这里截取真实窗口区域，而不是直接合成图片，满足实验报告截图要求。
             Process process = new ProcessBuilder(
                     "screencapture",
                     "-x",

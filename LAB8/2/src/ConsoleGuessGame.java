@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * 控制台版猜数字：把抽象输入输出方法映射到 Scanner 和 System.out。
+ */
 public class ConsoleGuessGame extends GuessGame {
     private final Scanner scanner = new Scanner(System.in);
 
@@ -9,6 +12,7 @@ public class ConsoleGuessGame extends GuessGame {
             System.out.print(prompt);
             String line = scanner.nextLine();
             if ("q".equalsIgnoreCase(line.trim())) {
+                // 返回 null 表示本轮取消，父类 play 方法会结束当前轮。
                 return null;
             }
             try {

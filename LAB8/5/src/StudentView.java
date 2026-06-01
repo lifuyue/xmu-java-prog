@@ -17,6 +17,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+/**
+ * MVC 中的 View：只负责创建窗口、暴露控件和更新状态文字。
+ */
 public class StudentView extends JFrame {
     private final JTextField idField = new JTextField(14);
     private final JTextField nameField = new JTextField(8);
@@ -43,6 +46,7 @@ public class StudentView extends JFrame {
     }
 
     public JComponent createContentPanel() {
+        // 界面由标题、表格、编辑区和按钮区组成；具体业务逻辑交给 Controller。
         JPanel root = new JPanel(new BorderLayout(0, 14));
         root.setPreferredSize(new Dimension(760, 500));
         root.setBorder(BorderFactory.createEmptyBorder(22, 26, 22, 26));

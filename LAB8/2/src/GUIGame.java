@@ -1,11 +1,15 @@
 import javax.swing.JOptionPane;
 
+/**
+ * GUI 版猜数字：用 JOptionPane 实现输入、提示和继续确认。
+ */
 public class GUIGame extends GuessGame {
     @Override
     protected Integer readGuess(String prompt) {
         while (true) {
             String input = JOptionPane.showInputDialog(null, prompt, "猜数字游戏", JOptionPane.QUESTION_MESSAGE);
             if (input == null) {
+                // 用户关闭输入框时，同样用 null 告诉父类取消本轮。
                 return null;
             }
             try {

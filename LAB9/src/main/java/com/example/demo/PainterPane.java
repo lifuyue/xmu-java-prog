@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Painter 绘图面板：根据当前工具、颜色和鼠标拖拽轨迹在 Canvas 上画图。
+ */
 public class PainterPane extends BorderPane {
     private final Canvas canvas = new Canvas(900, 540);
     private final List<PaintShape> shapes = new ArrayList<>();
@@ -112,16 +115,19 @@ public class PainterPane extends BorderPane {
 
     private void bindMouseEvents() {
         canvas.setOnMousePressed(event -> {
+            // 鼠标按下时只记录起点，真正的图形在拖拽或松开时根据终点计算。
             startX = event.getX();
             startY = event.getY();
         });
 
         canvas.setOnMouseDragged(event -> {
             drawAll();
+            // 拖拽中的图形只做虚线预览，不保存到 shapes 列表。
             drawShape(new PaintShape(currentTool, startX, startY, event.getX(), event.getY(), currentColor.get()), true);
         });
 
         canvas.setOnMouseReleased(event -> {
+            // 松开鼠标后才把图形加入历史列表，撤销功能也依赖这个列表。
             shapes.add(new PaintShape(currentTool, startX, startY, event.getX(), event.getY(), currentColor.get()));
             drawAll();
         });
@@ -133,6 +139,7 @@ public class PainterPane extends BorderPane {
         graphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         graphics.setStroke(Color.web("#e2e8f0"));
         graphics.strokeRect(0.5, 0.5, canvas.getWidth() - 1, canvas.getHeight() - 1);
+        // Canvas 不会自动记住之前画过的图形，所以每次都从列表完整重画。
         for (PaintShape shape : shapes) {
             drawShape(shape, false);
         }
@@ -166,6 +173,7 @@ public class PainterPane extends BorderPane {
     }
 
     private void drawCircle(GraphicsContext graphics, PaintShape shape) {
+        // 用较短边作为直径，保证拖出的图形是圆而不是椭圆。
         double radius = Math.min(Math.abs(shape.endX() - shape.startX()), Math.abs(shape.endY() - shape.startY()));
         double x = shape.endX() < shape.startX() ? shape.startX() - radius : shape.startX();
         double y = shape.endY() < shape.startY() ? shape.startY() - radius : shape.startY();

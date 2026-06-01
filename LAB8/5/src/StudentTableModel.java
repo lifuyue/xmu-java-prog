@@ -1,6 +1,9 @@
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * JTable 适配器：把 List<Student> 转成表格需要的行、列和值。
+ */
 public class StudentTableModel extends AbstractTableModel {
     private final String[] columns = {"学号", "姓名", "专业", "成绩"};
     private List<Student> students;
@@ -11,6 +14,7 @@ public class StudentTableModel extends AbstractTableModel {
 
     public void setStudents(List<Student> students) {
         this.students = students;
+        // 通知 JTable 数据已经变化，界面会自动重绘。
         fireTableDataChanged();
     }
 

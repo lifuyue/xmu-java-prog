@@ -7,12 +7,17 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * LAB10 JavaFX 入口：组装文件解析和学生顺序文件管理两个功能页。
+ */
 public class MainApp extends Application {
     @Override
     public void start(Stage stage) {
-        StudentRepository repository = new StudentRepository(Path.of(System.getProperty("user.dir"), "data"));
+        Path labDir = resolveLabDirectory();
+        StudentRepository repository = new StudentRepository(labDir.resolve("data"));
         FileAnalyzerPane fileAnalyzerPane = new FileAnalyzerPane();
         StudentManagerPane studentManagerPane = new StudentManagerPane(repository);
 
@@ -35,12 +40,26 @@ public class MainApp extends Application {
         stage.show();
 
         if (getParameters().getRaw().contains("--screenshots")) {
+            // 截图模式仍然启动真实窗口，再由 ScreenshotSession 自动切换状态并截图。
             Platform.runLater(() -> new ScreenshotSession(stage, tabPane, fileAnalyzerPane,
-                    studentManagerPane, Path.of(System.getProperty("user.dir"), "screenshots")).run());
+                    studentManagerPane, labDir.resolve("screenshots")).run());
         }
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private Path resolveLabDirectory() {
+        Path current = Path.of(System.getProperty("user.dir")).toAbsolutePath().normalize();
+        if (Files.exists(current.resolve("pom.xml"))
+                && Files.exists(current.resolve("src/main/java/com/example/lab10/MainApp.java"))) {
+            return current;
+        }
+        Path lab10 = current.resolve("LAB10");
+        if (Files.exists(lab10.resolve("pom.xml"))) {
+            return lab10;
+        }
+        return current;
     }
 }

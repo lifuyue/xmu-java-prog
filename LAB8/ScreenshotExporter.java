@@ -10,6 +10,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+/**
+ * 截图工具：把 Swing 组件绘制到 BufferedImage，生成实验报告所需图片。
+ */
 public class ScreenshotExporter {
     public static void main(String[] args) throws Exception {
         Path outDir = Path.of("LAB8", "screenshots");
@@ -31,6 +34,7 @@ public class ScreenshotExporter {
         Dimension size = component.getPreferredSize();
         component.setSize(size);
         layoutRecursively(component);
+        // 离屏绘制不需要真正打开窗口，适合批量生成报告截图。
         BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
         graphics.setColor(Color.WHITE);

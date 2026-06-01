@@ -34,6 +34,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 学生顺序文件管理界面：维护全部学生列表、当前显示列表和表单状态。
+ */
 public class StudentManagerPane extends BorderPane {
     private final StudentRepository repository;
     private final ObservableList<Student> allStudents = FXCollections.observableArrayList();
@@ -56,6 +59,7 @@ public class StudentManagerPane extends BorderPane {
         this.repository = repository;
         setPadding(new Insets(18));
         getStyleClass().add("page");
+        // 启动时先从顺序文件读取数据，再构建界面并显示全部记录。
         loadFromFile();
         buildUi();
         showAll();
@@ -245,6 +249,7 @@ public class StudentManagerPane extends BorderPane {
         }
         allStudents.add(student);
         allStudents.sort(Comparator.comparing(Student::id));
+        // 每次修改后都重新写入顺序文件，保证文本文件和内存列表一致。
         saveToFile();
         visibleStudents.setAll(allStudents);
         currentIndex = indexOfVisible(student.id());
@@ -309,6 +314,7 @@ public class StudentManagerPane extends BorderPane {
         visibleStudents.setAll(allStudents.stream()
                 .filter(student -> student.name().contains(keyword))
                 .toList());
+        // 查询结果仍使用同一套 currentIndex，实现“上一条”“下一条”浏览。
         currentIndex = visibleStudents.isEmpty() ? -1 : 0;
         displayCurrent();
         statusLabel.setText("查询完成：姓名包含“" + keyword + "”的记录共 " + visibleStudents.size() + " 条。");
@@ -358,6 +364,7 @@ public class StudentManagerPane extends BorderPane {
         String photoPath = photoField.getText().trim();
         if (selectedPhotoSource != null) {
             try {
+                // 用户选择的是源照片，保存学生记录前先复制到 data/photos 集中管理。
                 photoPath = repository.copyPhoto(selectedPhotoSource, id);
             } catch (IOException ex) {
                 statusLabel.setText("照片保存失败：" + ex.getMessage());
@@ -379,6 +386,7 @@ public class StudentManagerPane extends BorderPane {
             return;
         }
         Student student = visibleStudents.get(currentIndex);
+        // activeStudentId 记录当前表单对应的原始学生，修改学号时仍能找到旧记录。
         activeStudentId = student.id();
         idField.setText(student.id());
         nameField.setText(student.name());
@@ -454,6 +462,7 @@ public class StudentManagerPane extends BorderPane {
             if (Files.exists(actualPhoto)) {
                 return storedPhoto;
             }
+            // 截图演示需要稳定照片素材，这里用代码生成简单 JPG 占位照片。
             BufferedImage image = new BufferedImage(420, 420, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = image.createGraphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

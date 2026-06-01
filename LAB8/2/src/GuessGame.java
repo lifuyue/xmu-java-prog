@@ -1,5 +1,8 @@
 import java.util.Random;
 
+/**
+ * 抽象猜数字游戏：这里固定“生成答案、循环猜测、询问是否继续”的流程。
+ */
 public abstract class GuessGame {
     private final Random random;
     private final int min;
@@ -23,6 +26,7 @@ public abstract class GuessGame {
             showMessage("系统已经生成 " + min + " 到 " + max + " 之间的整数。");
 
             while (true) {
+                // readGuess 由子类决定来自控制台还是对话框，父类只处理游戏规则。
                 Integer guess = readGuess("请输入你的猜测：");
                 if (guess == null) {
                     showMessage("本轮游戏已取消。");

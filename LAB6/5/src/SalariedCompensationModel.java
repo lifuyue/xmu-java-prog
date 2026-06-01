@@ -1,3 +1,6 @@
+/**
+ * 固定周薪模型：每周收入就是预设的 weeklySalary。
+ */
 public class SalariedCompensationModel implements CompensationModel {
     private final double weeklySalary;
 

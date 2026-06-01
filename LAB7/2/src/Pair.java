@@ -1,3 +1,6 @@
+/**
+ * 泛型二元组：F 表示第一项类型，S 表示第二项类型。
+ */
 public class Pair<F, S> {
     private F first;
     private S second;
@@ -28,4 +31,3 @@ public class Pair<F, S> {
         return "Pair{first=" + first + ", second=" + second + "}";
     }
 }
-

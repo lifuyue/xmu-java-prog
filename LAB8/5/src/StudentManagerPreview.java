@@ -15,6 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+/**
+ * 学生管理系统的静态预览面板，用于生成截图，不绑定真实增删改事件。
+ */
 public class StudentManagerPreview {
     public static JComponent createContentPanel() {
         StudentModel model = new StudentModel();

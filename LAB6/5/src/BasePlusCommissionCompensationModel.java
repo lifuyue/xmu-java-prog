@@ -1,3 +1,6 @@
+/**
+ * 底薪加提成模型：在销售提成外额外增加固定底薪。
+ */
 public class BasePlusCommissionCompensationModel implements CompensationModel {
     private final double grossSales;
     private final double commissionRate;

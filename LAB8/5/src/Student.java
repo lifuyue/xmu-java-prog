@@ -1,3 +1,6 @@
+/**
+ * 学生实体类：保存表格中一行学生信息，并在 setter 中做基础校验。
+ */
 public class Student {
     private String id;
     private String name;

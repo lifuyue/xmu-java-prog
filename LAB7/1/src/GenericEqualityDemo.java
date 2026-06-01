@@ -1,8 +1,12 @@
+/**
+ * 第 1 题：泛型方法可以接收不同类型对象，比较规则仍由 equals 决定。
+ */
 public class GenericEqualityDemo {
     public static <T> boolean isEqualTo(T first, T second) {
         if (first == null) {
             return second == null;
         }
+        // T 代表调用时传入的具体类型；这里不关心类型名称，只调用统一的 equals。
         return first.equals(second);
     }
 
@@ -25,4 +29,3 @@ public class GenericEqualityDemo {
         System.out.println("未重写 equals 的 Object 默认按引用地址比较。");
     }
 }
-

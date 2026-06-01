@@ -1,3 +1,6 @@
+/**
+ * 第 4 题：用泛型方法比较不同类型对象，重点观察 equals 的实际效果。
+ */
 public class Main {
     public static void main(String[] args) {
         Integer number1 = 100;
@@ -25,6 +28,7 @@ public class Main {
         if (first == null) {
             return second == null;
         }
+        // 泛型只保证两个参数类型一致；真正的比较规则由对象自己的 equals 决定。
         return first.equals(second);
     }
 }

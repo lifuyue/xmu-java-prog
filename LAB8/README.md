@@ -1,56 +1,90 @@
 # LAB8 Java GUI 编程
 
-本目录按照第 08 周 Java GUI 编程要求整理，包含登录框、GuessGame 图形界面、事件处理示例以及 JTable/MVC 学生管理系统。
+本实验围绕 Swing GUI 编程，包含登录框、猜数字游戏、事件处理示例和 JTable/MVC 学生管理系统。程序运行后会打开窗口，需要在有桌面环境的电脑上执行。
 
-作业要求参考：第 08 周预习、实验及作业要求中的 Java GUI 编程内容，重点包括 Swing 组件、事件处理、JTable 与 MVC。
+## 实验内容
+
+| 题号 | 程序 | 主要知识点 |
+| --- | --- | --- |
+| 1 | `LoginFrameApp` | `JFrame`、文本框、密码框、按钮事件 |
+| 2 | `Main` / `GuessGame` | 抽象类、控制台版与 GUI 版复用流程 |
+| 3 | `EventDemoApp` | `ActionEvent`、`MouseEvent`、监听器 |
+| 5 | `Main` / MVC 类组 | `JTable`、MVC、表格数据模型 |
 
 ## 目录结构
 
 ```text
 LAB8/
-├── 1/   # 登录框界面，练习 JTextField、JPasswordField、按钮事件
-├── 2/   # GuessGame：抽象类 + 控制台/图形界面两种输入输出
-├── 3/   # Swing 事件处理示例，演示 ActionEvent 与 MouseEvent
-├── 5/   # JTable + MVC 学生管理系统，也覆盖 GUI 作业选做要求
-└── screenshots/  # 实验报告使用的运行截图
+├── 1/src/LoginFrameApp.java
+├── 2/src/Main.java
+├── 2/src/GuessGame.java
+├── 2/src/ConsoleGuessGame.java
+├── 2/src/GUIGame.java
+├── 2/src/GuessGamePanel.java
+├── 3/src/EventDemoApp.java
+├── 5/src/Main.java
+├── 5/src/Student.java
+├── 5/src/StudentModel.java
+├── 5/src/StudentTableModel.java
+├── 5/src/StudentView.java
+├── 5/src/StudentController.java
+├── run.sh
+├── ScreenshotExporter.java
+├── screenshots/
+└── build_report.py
 ```
 
-## 编译运行
+## 快速启动
 
-每个题目目录都可以独立编译运行，例如：
+在仓库根目录执行。脚本参数是题号：
 
 ```bash
-cd LAB8/1
-javac -d bin src/*.java
-java -cp bin LoginFrameApp
+bash LAB8/run.sh 1
+bash LAB8/run.sh 2
+bash LAB8/run.sh 3
+bash LAB8/run.sh 5
 ```
 
-第 2 题默认运行图形界面版：
+第 2 题默认打开 GUI 对话框版猜数字游戏。如果想运行控制台版：
 
 ```bash
-cd LAB8/2
-javac -d bin src/*.java
-java -cp bin Main
+bash LAB8/run.sh 2 console
 ```
 
-若要运行控制台版：
+## 手动编译运行
+
+以第 5 题学生管理系统为例：
 
 ```bash
-java -cp bin Main console
+javac -d LAB8/5/bin LAB8/5/src/*.java
+java -cp LAB8/5/bin Main
 ```
 
-第 5 题运行学生管理系统：
+## 设计说明
+
+- 第 1 题直接构造登录窗口，按钮的 `ActionListener` 负责读取输入框并更新提示文字。
+- 第 2 题把猜数字的固定流程放在抽象类 `GuessGame` 中，`ConsoleGuessGame` 和 `GUIGame` 只负责“怎么输入、怎么输出、是否继续”。
+- 第 3 题用按钮、下拉框和鼠标进入/离开演示事件源、事件对象和监听器之间的关系。
+- 第 5 题采用 MVC：`StudentModel` 保存数据和规则，`StudentView` 负责界面，`StudentController` 连接按钮事件和模型操作，`StudentTableModel` 把学生列表适配给 `JTable`。
+- `ScreenshotExporter` 用 Swing 组件离屏绘制生成实验报告截图，不影响各题正常运行。
+
+## 截图与报告
+
+生成截图：
 
 ```bash
-cd LAB8/5
-javac -d bin src/*.java
-java -cp bin Main
+javac -d LAB8/bin LAB8/1/src/*.java LAB8/2/src/*.java LAB8/3/src/*.java LAB8/5/src/*.java LAB8/ScreenshotExporter.java
+java -cp LAB8/bin ScreenshotExporter
 ```
 
-## 实验要点
+生成实验报告：
 
-- GUI 组件：使用 `JFrame`、`JPanel`、`JTextField`、`JButton`、`JTable` 等 Swing 组件。
-- 布局管理：综合使用 `BorderLayout`、`GridBagLayout`、`GridLayout`、`FlowLayout`。
-- 事件处理：通过 `ActionListener`、`MouseAdapter` 和表格选择监听器响应用户操作。
-- 抽象类：第 2 题中 `GuessGame` 固定猜数字流程，控制台版和图形版只替换输入输出方式。
-- MVC：第 5 题将 `StudentModel`、`StudentView`、`StudentController` 分离，`StudentTableModel` 负责表格数据适配。
+```bash
+python3 LAB8/build_report.py
+```
+
+## 注意事项
+
+- Swing 程序会打开窗口，不能只在没有图形界面的纯终端环境中运行。
+- 如果窗口没有出现在最前面，可以从任务栏或 Dock 中切换出来。
+- `bin/` 是编译输出目录，删除后重新运行脚本即可生成。

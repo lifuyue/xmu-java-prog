@@ -1,3 +1,6 @@
+/**
+ * 员工类只保存员工身份信息，并把收入计算委托给 CompensationModel。
+ */
 public class Employee {
     private final String firstName;
     private final String lastName;
@@ -19,10 +22,12 @@ public class Employee {
         if (compensationModel == null) {
             throw new IllegalArgumentException("compensationModel 不能为空。");
         }
+        // 组合薪酬模型对象后，Employee 不需要知道具体是周薪、时薪还是提成。
         this.compensationModel = compensationModel;
     }
 
     public double earnings() {
+        // 多态调用：运行时由当前模型对象决定具体收入公式。
         return compensationModel.earnings();
     }
 
