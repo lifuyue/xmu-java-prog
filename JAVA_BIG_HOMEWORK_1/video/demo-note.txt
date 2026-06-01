@@ -1,0 +1,5 @@
+22920242203267 李富悦
+这是 Java Swing 记事本功能演示。
+AI 工具辅助完成代码生成、调试、截图和实验报告整理。
+notepad find replace test
+下面加入一行较长文本，用于演示自动换行、缩放、字体设置和状态栏变化：Java Swing Notepad supports file, edit, search, format and view operations.
