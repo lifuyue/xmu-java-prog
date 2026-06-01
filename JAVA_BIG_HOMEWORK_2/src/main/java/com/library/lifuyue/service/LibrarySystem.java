@@ -25,13 +25,23 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * 图书管理系统的业务核心类。
+ *
+ * 设计目的：让 JavaFX 界面只负责显示和按钮事件，把库存、借阅、删除校验、
+ * 文件保存等业务规则集中在这里。答辩时如果老师问“系统怎么工作”，可以从
+ * load -> UI 调用业务方法 -> saveAll 这条主线说明。
+ */
 public class LibrarySystem {
     private final Path dataDir;
     private final BookRepository bookRepository;
     private final BorrowRecordRepository recordRepository;
     private final UserRepository userRepository;
+    // ISBN 是图书的唯一标识，用 Map 可以快速按 ISBN 找到图书。
     private final Map<String, Book> books = new LinkedHashMap<>();
+    // 借阅记录需要保留历史顺序，所以使用 List 保存。
     private final List<BorrowRecord> records = new ArrayList<>();
+    // 用户账号唯一，用 Map 支持管理员登录时快速查找账号。
     private final Map<String, User> users = new HashMap<>();
 
     public LibrarySystem(Path dataDir) {
@@ -43,6 +53,7 @@ public class LibrarySystem {
 
     public void load() throws LibraryException {
         try {
+            // 程序启动时一次性把三个文本文件读入内存，界面后续都操作内存对象。
             books.clear();
             for (Book book : bookRepository.load()) {
                 books.put(book.getIsbn(), book);
@@ -61,6 +72,7 @@ public class LibrarySystem {
 
     public void saveAll() throws LibraryException {
         try {
+            // 每次增删改、借书、还书后调用，保证程序重启后数据不丢失。
             bookRepository.save(getAllBooks());
             recordRepository.save(new ArrayList<>(records));
             userRepository.save(getAllUsers());
@@ -78,6 +90,7 @@ public class LibrarySystem {
     }
 
     public ReaderUser findOrCreateReader(String displayName) throws LibraryException {
+        // 普通读者不需要密码。若姓名已经存在，直接复用；否则创建新读者并保存。
         for (User user : users.values()) {
             if (user.getRole() == UserRole.READER && user.getDisplayName().equals(displayName)) {
                 return (ReaderUser) user;
@@ -106,6 +119,7 @@ public class LibrarySystem {
 
     public void addBook(String isbn, String title, String author, String publisher, String stockText) throws LibraryException {
         String cleanIsbn = requireText(isbn, "请输入 ISBN");
+        // ISBN 作为图书唯一键，添加前必须先检查重复。
         if (books.containsKey(cleanIsbn)) {
             throw new LibraryException("ISBN 已存在，不能重复添加");
         }
@@ -120,6 +134,7 @@ public class LibrarySystem {
     }
 
     public void updateBook(String isbn, String title, String author, String publisher, String stockText) throws LibraryException {
+        // 修改必须基于已经存在的 ISBN。界面选中表格行后会把 ISBN 自动填入表单。
         Book book = requireBook(isbn);
         book.setTitle(requireText(title, "请输入书名"));
         book.setAuthor(requireText(author, "请输入作者"));
@@ -130,6 +145,7 @@ public class LibrarySystem {
 
     public void deleteBook(String isbn) throws LibraryException {
         Book book = requireBook(isbn);
+        // 有未归还记录时不允许删除图书，否则借阅记录会指向一条不存在的图书。
         boolean hasActiveRecord = records.stream()
                 .anyMatch(record -> !record.isReturned() && record.getIsbn().equals(book.getIsbn()));
         if (hasActiveRecord) {
@@ -143,6 +159,7 @@ public class LibrarySystem {
         String titleFilter = normalizeLower(titleKeyword);
         String authorFilter = normalizeLower(author);
         String isbnFilter = normalize(isbn);
+        // 书名和作者用包含查询，ISBN 用精确匹配，满足作业要求的三种查询方式。
         return books.values().stream()
                 .filter(book -> titleFilter.isEmpty() || book.getTitle().toLowerCase(Locale.ROOT).contains(titleFilter))
                 .filter(book -> authorFilter.isEmpty() || book.getAuthor().toLowerCase(Locale.ROOT).contains(authorFilter))
@@ -153,9 +170,11 @@ public class LibrarySystem {
     public BorrowRecord borrowBook(String isbn, String readerName) throws LibraryException {
         Book book = requireBook(isbn);
         String reader = requireText(readerName, "请输入读者姓名");
+        // 规则 1：库存为 0 时不能借阅。
         if (book.getStock() <= 0) {
             throw new LibraryException("库存为 0，不能借阅");
         }
+        // 规则 2：同一本书同一读者只能有一条未归还记录。
         boolean duplicate = records.stream()
                 .anyMatch(record -> !record.isReturned()
                         && record.getIsbn().equals(book.getIsbn())
@@ -164,6 +183,7 @@ public class LibrarySystem {
             throw new LibraryException("同一本书同一读者不可重复借阅");
         }
         BorrowRecord record = new BorrowRecord(nextRecordId(), reader, book.getIsbn(), book.getTitle(), LocalDate.now(), null, false);
+        // 借书成功后，库存减少，同时新增一条未归还记录。
         book.decreaseStock();
         records.add(record);
         saveAll();
@@ -173,6 +193,7 @@ public class LibrarySystem {
     public BorrowRecord returnBook(String isbn, String readerName) throws LibraryException {
         Book book = requireBook(isbn);
         String reader = requireText(readerName, "请输入读者姓名");
+        // 还书时只查找“当前读者 + 当前 ISBN + 未归还”的记录。
         Optional<BorrowRecord> match = records.stream()
                 .filter(record -> !record.isReturned()
                         && record.getIsbn().equals(book.getIsbn())
@@ -182,6 +203,7 @@ public class LibrarySystem {
             throw new LibraryException("没有找到该读者的未归还记录");
         }
         BorrowRecord record = match.get();
+        // 找到记录后标记归还日期，并把库存加回去。
         record.markReturned(LocalDate.now());
         book.increaseStock();
         saveAll();

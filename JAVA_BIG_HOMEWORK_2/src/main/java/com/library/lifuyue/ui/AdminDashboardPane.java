@@ -92,13 +92,17 @@ public class AdminDashboardPane extends BorderPane {
         root.setCenter(managementTable);
         BorderPane.setMargin(managementTable, new Insets(0, 16, 0, 0));
 
+        // 答辩演示点：单击左侧表格的一本书，右侧文本框会自动显示这本书的信息。
+        // 删除时不需要手动输入 ISBN，选中后直接点击“删除图书”即可。
         managementTable.getTable().getSelectionModel().selectedItemProperty().addListener((obs, oldValue, book) -> {
             if (book != null) {
                 fillBookForm(book);
             }
         });
 
-        VBox form = new VBox(12, sectionTitle("图书信息"), bookForm(), managementActions());
+        Label hint = new Label("提示：选中左侧表格中的图书后，可自动填入下方文本框，便于修改或删除。");
+        hint.getStyleClass().add("status-text");
+        VBox form = new VBox(12, sectionTitle("图书信息"), hint, bookForm(), managementActions());
         form.getStyleClass().add("panel");
         form.setPadding(new Insets(16));
         form.setPrefWidth(330);
@@ -231,6 +235,7 @@ public class AdminDashboardPane extends BorderPane {
     }
 
     private void fillBookForm(Book book) {
+        // 表格选中监听会调用这个方法，把 Book 对象拆成右侧表单文本。
         isbnField.setText(book.getIsbn());
         titleField.setText(book.getTitle());
         authorField.setText(book.getAuthor());
@@ -270,6 +275,7 @@ public class AdminDashboardPane extends BorderPane {
     }
 
     private void deleteBook() {
+        // 删除按钮读取右侧 ISBN 文本框。这个 ISBN 通常由表格选中操作自动填入。
         if (!AlertUtils.confirm("确定要删除 ISBN 为 " + isbnField.getText() + " 的图书吗？")) {
             return;
         }
